@@ -68,11 +68,39 @@ export class WebhooksService {
         case 'payment_intent.succeeded':
           const paymentIntent = event.data.object as Stripe.PaymentIntent;
           this.logger.log(`💰 Pago exitoso detectado: ${paymentIntent.id}`);
-          // Aquí irá la comunicación con el servicio de órdenes
+          // Crear la orden usando los datos del metadata
+          const { metadata, amount } = paymentIntent;
+          const order = await this.ordersService.create({
+            stripe_payment_intent_id: paymentIntent.id,
+            amount: amount,
+            order_number: `ORD-${Date.now()}`,
+            lead_id: metadata.lead_id || undefined,
+            company_name: metadata.company_name,
+            entity_type: metadata.entity_type,
+            registration_state: metadata.registration_state,
+
+            items: { plan_id: metadata.plan_id },
+            status: OrderStatus.PAID,
+          });
+          this.logger.log(`✅ Orden creada exitosamente: ${order.id}`);
           break;
 
         case 'payment_intent.payment_failed':
+          const args = event.data.object as Stripe.PaymentIntent;
           this.logger.warn(`❌ Pago fallido: ${event.id}`);
+
+          // También registramos la orden fallida para tener historial
+          await this.ordersService.create({
+            stripe_payment_intent_id: args.id,
+            amount: args.amount,
+            order_number: `ORD-FAILED-${Date.now()}`,
+            lead_id: args.metadata.lead_id || undefined,
+            company_name: args.metadata.company_name,
+            entity_type: args.metadata.entity_type,
+            registration_state: args.metadata.registration_state,
+            items: { plan_id: args.metadata.plan_id },
+            status: OrderStatus.FAILED,
+          });
           break;
 
         default:
