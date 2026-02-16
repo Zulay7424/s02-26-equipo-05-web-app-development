@@ -7,6 +7,7 @@ import { AppService } from './app.service';
 import { LeadsModule } from './leads/leads.module';
 import { OrdersModule } from './orders/orders.module';
 import { WebhooksModule } from './webhooks/webhooks.module';
+import { PaymentsModule } from './payments/payments.module';
 
 @Module({
   imports: [
@@ -15,6 +16,8 @@ import { WebhooksModule } from './webhooks/webhooks.module';
       validationSchema: Joi.object({
         PORT: Joi.number().default(3000),
         DATABASE_URL: Joi.string().required(),
+        STRIPE_SECRET_KEY: Joi.string().required(),
+        STRIPE_WEBHOOK_SECRET: Joi.string().required(),
         PIPEDRIVE_API_TOKEN: Joi.string().required(),
       }),
     }),
@@ -34,6 +37,7 @@ import { WebhooksModule } from './webhooks/webhooks.module';
     LeadsModule,
     OrdersModule,
     WebhooksModule,
+    PaymentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

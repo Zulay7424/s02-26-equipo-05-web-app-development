@@ -1,7 +1,9 @@
 import { Injectable, BadRequestException, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { WebhookLog } from './entities/webhook-log.entity'; 
+import { OrdersService } from '../orders/orders.service';
+import { WebhookLog } from './entities/webhook-log.entity';
+import { OrderStatus } from '../orders/entities/order.entity';
 import Stripe from 'stripe';
 
 @Injectable()
@@ -12,6 +14,7 @@ export class WebhooksService {
   constructor(
     @InjectRepository(WebhookLog)
     private readonly logRepository: Repository<WebhookLog>,
+    private readonly ordersService: OrdersService,
   ) {
     // Inicializamos Stripe. Asegúrate de tener STRIPE_SECRET_KEY en tu .env
     this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
@@ -36,8 +39,8 @@ export class WebhooksService {
 
     // --- ESCENARIO 1: IDEMPOTENCIA ---
     // Usamos event_id que es tu columna con Unique Key
-    const existingEvent = await this.logRepository.findOne({ 
-      where: { event_id: event.id } 
+    const existingEvent = await this.logRepository.findOne({
+      where: { event_id: event.id }
     });
 
     if (existingEvent && existingEvent.processed) {
@@ -82,7 +85,7 @@ export class WebhooksService {
     } catch (error) {
       // Si algo falla, usamos tu columna 'processing_error'
       await this.logRepository.update(
-        { event_id: event.id }, 
+        { event_id: event.id },
         { processing_error: error.message }
       );
       throw error;
