@@ -32,6 +32,6 @@ Puedes encontrar los entregables técnicos en la carpeta `/QA-Documentation` (o 
 
 ---
 **Contacto:**
-* **LinkedIn:** inkedin.com/in/zulayperaza
+* **LinkedIn:** Linkedin.com/in/zulayperaza
 * **Email:** zulayperaza@hotmail.com
 * **Profesión:** Ingeniera Mecánica | Magister en Ingeniería Industrial
