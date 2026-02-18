@@ -1,7 +1,7 @@
 # QA Manual Testing Project - No Country Simulation
 
 ## 🚀 Perfil del Proyecto
-Este repositorio contiene la documentación técnica, el plan de pruebas y la ejecución de casos de prueba realizados durante mi participación en la **Simulación Laboral de No Country (Cohorte Febrero 2025)**. Como **Ingeniera y QA Analyst**, mi objetivo principal fue garantizar la calidad, fiabilidad y usabilidad de la aplicación mediante metodologías de prueba rigurosas.
+Este repositorio contiene la documentación técnica, el plan de pruebas y la ejecución de casos de prueba realizados durante mi participación en la **Simulación Laboral de No Country (Cohorte Febrero 2026)**. Como **Ingeniera y QA Analyst**, mi objetivo principal fue garantizar la calidad, fiabilidad y usabilidad de la aplicación mediante metodologías de prueba rigurosas.
 
 ## 🛠️ Rol y Responsabilidades
 En este proyecto, asumí la responsabilidad total del ciclo de vida de las pruebas (**STLC**), asegurando que cada funcionalidad cumpliera con los requisitos del negocio. Mis tareas incluyeron:
